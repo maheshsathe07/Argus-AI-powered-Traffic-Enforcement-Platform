@@ -66,8 +66,8 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 **Contributors:**
 
-[Mahesh Sathe]
-[Piyush Waghulde]
-[Atharva Shinde]
-[Bhushan Sangle]
-[Om Wagh]
+Mahesh Sathe  
+Piyush Waghulde  
+Atharva Shinde  
+Bhushan Sangle  
+Om Wagh
