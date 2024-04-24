@@ -1,9 +1,8 @@
 import ast
-
 import cv2
 import numpy as np
 import pandas as pd
-
+import os
 
 def draw_border(img, top_left, bottom_right, color=(0, 255, 0), thickness=10, line_length_x=200, line_length_y=200):
     x1, y1 = top_left
@@ -23,18 +22,22 @@ def draw_border(img, top_left, bottom_right, color=(0, 255, 0), thickness=10, li
 
     return img
 
+results = pd.read_csv('temp/test_interpolated.csv')
 
-results = pd.read_csv('./test_interpolated.csv')
+# Create the 'out' directory if it doesn't exist
+output_dir = 'out'
+os.makedirs(output_dir, exist_ok=True)
 
 # load video
-video_path = 'video3.mp4'
+video_path = 'video1.mp4'
 cap = cv2.VideoCapture(video_path)
 
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Specify the codec
 fps = cap.get(cv2.CAP_PROP_FPS)
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-out = cv2.VideoWriter('./out.mp4', fourcc, fps, (width, height))
+output_video_path = os.path.join(output_dir, 'out.mp4')
+out = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
 
 license_plate = {}
 for car_id in np.unique(results['car_id']):
@@ -50,7 +53,11 @@ for car_id in np.unique(results['car_id']):
                                               (results['license_number_score'] == max_)]['license_plate_bbox'].iloc[0].replace('[ ', '[').replace('   ', ' ').replace('  ', ' ').replace(' ', ','))
 
     license_crop = frame[int(y1):int(y2), int(x1):int(x2), :]
-    license_crop = cv2.resize(license_crop, (int((x2 - x1) * 400 / (y2 - y1)), 400))
+    try:
+        if license_crop is not None:
+            license_crop = cv2.resize(license_crop, (int((x2 - x1) * 400 / (y2 - y1)), 400))
+    except Exception as e:
+        print(f"Error resizing license plate crop for car {car_id}: {e}")
 
     license_plate[car_id]['license_crop'] = license_crop
 
@@ -80,34 +87,32 @@ while ret:
             H, W, _ = license_crop.shape
 
             try:
-                frame[int(car_y1) - H - 100:int(car_y1) - 100,
-                      int((car_x2 + car_x1 - W) / 2):int((car_x2 + car_x1 + W) / 2), :] = license_crop
+                if license_crop is not None:
+                    frame[int(car_y1) - H - 100:int(car_y1) - 100,
+                          int((car_x2 + car_x1 - W) / 2):int((car_x2 + car_x1 + W) / 2), :] = license_crop
 
-                frame[int(car_y1) - H - 400:int(car_y1) - H - 100,
-                      int((car_x2 + car_x1 - W) / 2):int((car_x2 + car_x1 + W) / 2), :] = (255, 255, 255)
+                    frame[int(car_y1) - H - 400:int(car_y1) - H - 100,
+                          int((car_x2 + car_x1 - W) / 2):int((car_x2 + car_x1 + W) / 2), :] = (255, 255, 255)
 
-                (text_width, text_height), _ = cv2.getTextSize(
-                    license_plate[df_.iloc[row_indx]['car_id']]['license_plate_number'],
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    4.3,
-                    17)
+                    (text_width, text_height), _ = cv2.getTextSize(
+                        license_plate[df_.iloc[row_indx]['car_id']]['license_plate_number'],
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        4.3,
+                        17)
 
-                cv2.putText(frame,
-                            license_plate[df_.iloc[row_indx]['car_id']]['license_plate_number'],
-                            (int((car_x2 + car_x1 - text_width) / 2), int(car_y1 - H - 250 + (text_height / 2))),
-                            cv2.FONT_HERSHEY_SIMPLEX,
-                            4.3,
-                            (0, 0, 0),
-                            17)
+                    cv2.putText(frame,
+                                license_plate[df_.iloc[row_indx]['car_id']]['license_plate_number'],
+                                (int((car_x2 + car_x1 - text_width) / 2), int(car_y1 - H - 250 + (text_height / 2))),
+                                cv2.FONT_HERSHEY_SIMPLEX,
+                                4.3,
+                                (0, 255, 0),  # Change text color to green
+                                17)
 
-            except:
-                pass
+            except Exception as e:
+                print(f"Error processing license plate for car {df_.iloc[row_indx]['car_id']}: {e}")
 
         out.write(frame)
         frame = cv2.resize(frame, (1280, 720))
-
-        # cv2.imshow('frame', frame)
-        # cv2.waitKey(0)
 
 out.release()
 cap.release()

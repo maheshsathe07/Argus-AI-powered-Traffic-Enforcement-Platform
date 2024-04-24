@@ -53,6 +53,7 @@ def write_csv(results, output_path):
         f.close()
 
 
+
 def license_complies_format(text):
 
     if len(text) != 10:
@@ -88,14 +89,17 @@ def format_license(text):
 
 
 def read_license_plate(license_plate_crop):
-
     detections = reader.readtext(license_plate_crop)
-    # print(detections)
+
     for detection in detections:
         bbox, text, score = detection
 
-        text = text.upper().replace(' ', '')
-        print(text)
+        # Remove special characters
+        text = ''.join(ch for ch in text if ch.isalnum())
+
+        # Convert to uppercase
+        text = text.upper()
+
         if license_complies_format(text):
             return format_license(text), score
 
@@ -104,6 +108,7 @@ def read_license_plate(license_plate_crop):
 
 def get_car(license_plate, vehicle_track_ids):
 
+    global car_indx
     x1, y1, x2, y2, score, class_id = license_plate
 
     foundIt = False
