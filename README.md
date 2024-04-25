@@ -1,4 +1,4 @@
-**Traffic Police Assistant**
+**AI-powered Traffic Enforcement Platform**
 
 **Project Description:**
 
