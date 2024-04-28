@@ -27,18 +27,6 @@ def connect_to_database():
     )
     return connection
 
-# Function to fetch vehicle details based on input values
-# def fetch_vehicle_details(state, district, series_char, series_num):
-#     connection = connect_to_database()
-#     cursor = connection.cursor()
-#
-#     query = f"SELECT * FROM VEHICLE_DETAILS WHERE state='{state}' AND district={district} AND series_char='{series_char}' AND series_num='{series_num}'"
-#     cursor.execute(query)
-#     result = cursor.fetchall()
-#
-#     connection.close()
-#
-#     return result
 def fetch_vehicle_details(state, district, series_char, series_num):
     connection = connect_to_database()
     cursor = connection.cursor()
@@ -233,6 +221,23 @@ def process_video(uploaded_file):
 
 # Streamlit UI
 def main():
+    # st.set_page_config(page_title="License Plate Detection App", page_icon=":car:")
+    # page_bg_img = f"""
+    # <style>
+    # [data-testid="stAppViewContainer"] > .main {{
+    # background-image: url("https://i.postimg.cc/4xgNnkfX/Untitled-design.png");
+    # background-size: cover;
+    # background-position: center center;
+    # background-repeat: no-repeat;
+    # background-attachment: local;
+    # }}
+    # [data-testid="stHeader"] {{
+    # background: rgba(0,0,0,0);
+    # }}
+    # </style>
+    # """
+    #
+    # st.markdown(page_bg_img, unsafe_allow_html=True)
     st.title("License Plate Detection App")
     uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi"])
     if uploaded_file is not None:
