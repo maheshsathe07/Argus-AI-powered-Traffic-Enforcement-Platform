@@ -39,13 +39,15 @@ The Traffic Police Assistant is an AI-powered system designed to assist traffic 
 
 **Requirements:**
 
-- Python 3.x
+- Python 3.8+
 - OpenCV
 - NumPy
 - Pandas
 - YOLOv8 Pretrained Model
 - Custom Trained YOLOv8 Model for License Plate Detection
 - EasyOCR Library
+- Ultralytics Library
+- Streamlit
 
 **Installation:**
 
