@@ -40,6 +40,15 @@ def main():
                         # Send SMS message about the fine
 
                         # Twilio Code to send SMS
+                        account_sid = 'Account_SID'
+                        auth_token = 'Auth_Token'
+                        client = Client(account_sid, auth_token)
+                        to_number_with_country_code = "+91" + str(row['owner_mob_no'])
+                        message = client.messages.create(
+                            from_='Generated_No.',
+                            body='Fine For Not Having Active Insurance or PUC',
+                            to=to_number_with_country_code
+                        )
                         
                         break  # Once a fine is found, no need to check further
                 if has_fine:
