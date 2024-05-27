@@ -1,2 +1,7 @@
 ultralytics
 easyocr
+twilio
+streamlit
+mysql.connector
+opencv-python
+filterpy
