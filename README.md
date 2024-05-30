@@ -1,10 +1,10 @@
-**AI-powered Traffic Enforcement Platform**
+# AI-powered Traffic Enforcement Platform
 
-**Project Description:**
+## Project Description
 
-The Traffic Police Assistant is an AI-powered system designed to assist traffic police in monitoring and managing traffic. This system utilizes computer vision and deep learning techniques to detect vehicles, identify license plates, and extract license plate numbers from surveillance videos. The extracted data is then stored in a CSV file for further analysis and record-keeping.
+A AI-powered Traffic Enforcement Platform is an AI-powered system designed to assist traffic police in monitoring and managing traffic. This system utilizes computer vision and deep learning techniques to detect vehicles, identify license plates, and extract license plate numbers from surveillance videos. The extracted data is then stored in a CSV file for further analysis and record-keeping.
 
-**Key Features:**
+## Key Features
 
 1. **Vehicle Detection using YOLOv8 Pretrained Model:**
    - The system employs the YOLOv8 pretrained model to detect vehicles in surveillance videos.
@@ -30,14 +30,14 @@ The Traffic Police Assistant is an AI-powered system designed to assist traffic 
    - Bounding boxes are overlaid on detected vehicles and license plates for visual representation.
    - License plate numbers are displayed within bounding boxes for easy identification and analysis.
 
-**Usage:**
+## Usage
 
 1. Provide the input video containing traffic surveillance footage.
 2. The system will process the video, detect vehicles, identify license plates, extract license plate numbers, and store the data in a CSV file.
 3. Missing data will be interpolated to ensure a continuous dataset.
 4. The output video with bounding boxes and extracted license plate numbers will be generated for visualization and analysis.
 
-**Requirements:**
+## Requirements
 
 - Python 3.8+
 - OpenCV
@@ -49,27 +49,48 @@ The Traffic Police Assistant is an AI-powered system designed to assist traffic 
 - Ultralytics Library
 - Streamlit
 
-**Installation:**
+## Installation
 
-1. Clone the project repository from GitHub.
-2. Install the required dependencies using pip or conda.
+1. Clone the project repository from GitHub:
+   ```bash
+   git clone https://github.com/yourusername/traffic-police-assistant.git
+   cd traffic-police-assistant
+   ```
+
+2. Install the required dependencies using pip:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
 3. Download and place the pretrained YOLOv8 model and custom trained YOLOv8 model in the appropriate directories.
-4. Install the EasyOCR library using pip.
+
+4. Install the EasyOCR library using pip:
+   ```bash
+   pip install easyocr
+   ```
+
 5. Ensure that all necessary files and directories are properly configured.
 
-**Credits:**
+## Running the Application
+
+1. To start the Streamlit application, run:
+   ```bash
+   streamlit run app.py
+   ```
+
+## Credits
 
 - YOLOv8: https://github.com/WongKinYiu/yolov5
 - EasyOCR: https://github.com/JaidedAI/EasyOCR
 
-**License:**
+## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
-**Contributors:**
+## Contributors
 
-Mahesh Sathe  
-Piyush Waghulde  
-Atharva Shinde  
-Bhushan Sangle  
-Om Wagh
+- Mahesh Sathe
+- Piyush Waghulde
+- Atharva Shinde
+- Bhushan Sangle
+- Om Wagh
