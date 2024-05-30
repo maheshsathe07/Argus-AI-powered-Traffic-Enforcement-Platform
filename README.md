@@ -53,8 +53,8 @@ A AI-powered Traffic Enforcement Platform is an AI-powered system designed to as
 
 1. Clone the project repository from GitHub:
    ```bash
-   git clone https://github.com/yourusername/traffic-police-assistant.git
-   cd traffic-police-assistant
+   git clone https://github.com/maheshsathe07/Argus-AI-powered-Traffic-Enforcement-Platform.git
+   cd Argus-AI-powered-Traffic-Enforcement-Platform
    ```
 
 2. Install the required dependencies using pip:
