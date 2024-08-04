@@ -189,3 +189,34 @@ def record_video(output_path, duration):
             break
     cap.release()
     out.release()
+
+
+# Functions for API
+def parse_date(date_str):
+    for fmt in ('%d-%m-%Y', '%Y-%m-%d'):
+        try:
+            return datetime.strptime(date_str, fmt).date()
+        except ValueError:
+            pass
+    return datetime(1970, 1, 1).date()
+def get_vehicle_info(registration_number):
+    url = "https://rto-vehicle-information-verification-india.p.rapidapi.com/api/v1/rc/vehicleinfo"
+    headers = {
+        "content-type": "application/json",
+        "X-RapidAPI-Key": "YOUR API KEY",
+        "X-RapidAPI-Host": "YOUR RAPIDAPI HOST"
+    }
+    payload = {
+        "reg_no": registration_number,
+        "consent": "Y",
+        "consent_text": "I hereby declare my consent agreement for fetching my information via AITAN Labs API"
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+    
+    if response.status_code == 200:
+        vehicle_info = response.json()['result']
+        return vehicle_info
+    else:
+        return None
+
