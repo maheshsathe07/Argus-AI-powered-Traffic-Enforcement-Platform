@@ -63,15 +63,28 @@ def display_vehicle_details(results_csv):
                 puc_expired = row['puc_valid_to'] < today
                 if ins_expired or puc_expired:
                     has_fine = True
-                    account_sid = 'Your Twilio Account SID'
-                    auth_token = 'Your Twilio Authentication Token'
+                    account_sid = 'Account SID'
+                    auth_token = 'Auth Token'
                     client = Client(account_sid, auth_token)
-                    to_number_with_country_code = "+91" + str(row['owner_mob_no'])
-                    message = client.messages.create(
-                        from_='Your Twilio No.',
-                        body='Fine For Not Having Active Insurance or PUC',
-                        to=to_number_with_country_code
+                    # to_number_with_country_code = "+91" + str(row['owner_mob_no'])
+            
+                    # Craft the message with all the details
+                    message_body = (
+                        f"Fine Applied for Vehicle:\n"
+                        f"License Plate Number: {license_plate_number}\n"
+                        f"Owner Name: {row['owner_name']}\n"
+                        f"Insurance Expiry: {row['ins_valid_to']}\n"
+                        f"PUC Expiry: {row['puc_valid_to']}\n"
+                        f"Fine Applied: {'Yes' if has_fine else 'No'}"
                     )
+
+                    message = client.messages.create(
+                        from_='Your Twilio Mobile',
+                        body=message_body,
+                        # to=to_number_with_country_code
+                        to="Sender Mob No."
+                    )
+                
                 vehicle_details_list.append({
                     'License Plate Number': license_plate_number,
                     'Owner Name': row['owner_name'],
